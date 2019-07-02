@@ -3,22 +3,23 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_heroku import Heroku
 from flask_mail import Mail, Message
-import config
+# import config
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = config.SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 
 
 app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
     MAIL_PORT = 465,
     MAIL_USE_SSL = True,
-    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
-    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
-    MAIL_USERNAME = config.MAIL_USERNAME,
-    MAIL_PASSWORD = config.MAIL_PASSWORD,
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
+    # MAIL_USERNAME = config.MAIL_USERNAME,
+    # MAIL_PASSWORD = config.MAIL_PASSWORD,
     MAIL_DEFAULT_SENDER = 'myemail@testemail.com'
 )
 
@@ -61,11 +62,11 @@ class Current(db.Model):
         self.img_url = img_url
 
     def __repr__(self):
-        return "<Title %r>" % self.title 
+        return jsonfiy("<Title %r>" % self.title) 
         
 @app.route("/")
 def home():
-    return"<h1>Hi from Flask</h1>"
+    return jsonify("<h1>Hi from Flask</h1>")
 
 @app.route("/current/input", methods=["POST"])
 def current_input():
@@ -83,6 +84,7 @@ def current_input():
 @app.route("/current", methods=["GET"])
 def return_current():
     all_current = db.session.query(Current.id, Current.title, Current.description, Current.img_url).all()
+    print(all_current)
     return jsonify(all_current)
 
 @app.route("/current/<id>", methods=['GET'])
