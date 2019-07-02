@@ -9,15 +9,15 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ('SQLALCHEMY_DATABASE_URI')
 
 
 app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
     MAIL_PORT = 465,
     MAIL_USE_SSL = True,
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
+    MAIL_USERNAME = os.environ('MAIL_USERNAME'),
+    MAIL_PASSWORD = os.environ('MAIL_PASSWORD'),
     # MAIL_USERNAME = config.MAIL_USERNAME,
     # MAIL_PASSWORD = config.MAIL_PASSWORD,
     MAIL_DEFAULT_SENDER = 'myemail@testemail.com'
