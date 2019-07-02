@@ -62,11 +62,11 @@ class Current(db.Model):
         self.img_url = img_url
 
     def __repr__(self):
-        return jsonfiy("<Title %r>" % self.title) 
+        return "<Title %r>" % self.title
         
 @app.route("/")
 def home():
-    return jsonify("<h1>Hi from Flask</h1>")
+    return "<h1>Hi from Flask</h1>"
 
 @app.route("/current/input", methods=["POST"])
 def current_input():
