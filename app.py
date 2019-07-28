@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_heroku import Heroku
 from flask_mail import Mail, Message
-import config
+# import config
 import os
 
 app = Flask(__name__)
