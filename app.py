@@ -3,13 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_heroku import Heroku
 from flask_mail import Mail, Message
-# import config
+import config
 import os
 
 app = Flask(__name__)
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+app.config["DATABASE_URI"] = os.environ.get('DATABASE_URI')
+# app.config["SQLALCHEMY_DATABASE_URI"] = config.SQLALCHEMY_DATABASE_URI
 
 
 app.config.update(
@@ -35,8 +36,8 @@ def index():
         get_data = request.get_json()
         name = get_data.get('name')
         sender = get_data.get('email')
-        # recipients = [os.environ.get('MAIL_USERNAME')]
-        recipients = [config.MAIL_USERNAME]
+        recipients = [os.environ.get('MAIL_USERNAME')]
+        # recipients = [config.MAIL_USERNAME]
         headers = [name, sender] + recipients
         subject = get_data.get('subject')
         message = get_data.get('message')
