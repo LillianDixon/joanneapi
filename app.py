@@ -48,7 +48,18 @@ def index():
     return jsonify('Message has been sent')
 
 
-
+@app.route('/login', methods=['POST'])
+def login():
+    if request.content_type == "application/json":
+        post_data = request.get_json()
+        email = post_data.get("email")
+        password = post_data.get("password")
+        
+        # if password == config.LOGIN_PASSWORD and email == config.LOGIN_EMAIL:
+        if password == os.environ.get("LOGIN_PASSWORD") and email == os.environ.get('LOGIN_EMAIL'):
+            Credentials = True
+            return jsonify('logged in')
+    return jsonify('Wrong Credentials')
 
 class Current(db.Model):
     __tablename__ = 'currentArtwork'
