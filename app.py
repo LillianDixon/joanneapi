@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_heroku import Heroku
 from flask_mail import Mail, Message
-# import config
+import config
 import os
 
 app = Flask(__name__)
@@ -17,10 +17,10 @@ app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
     MAIL_PORT = 465,
     MAIL_USE_SSL = True,
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
-    # MAIL_USERNAME = config.MAIL_USERNAME,
-    # MAIL_PASSWORD = config.MAIL_PASSWORD,
+    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
+    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
+    MAIL_USERNAME = config.MAIL_USERNAME,
+    MAIL_PASSWORD = config.MAIL_PASSWORD,
     MAIL_DEFAULT_SENDER = 'myemail@testemail.com'
 )
 
@@ -36,15 +36,15 @@ def index():
         get_data = request.get_json()
         name = get_data.get('name')
         sender = get_data.get('email')
-        recipients = [os.environ.get('MAIL_USERNAME')]
-        # recipients = [config.MAIL_USERNAME]
+        # recipients = [os.environ.get('MAIL_USERNAME')]
+        recipients = [config.MAIL_USERNAME]
         headers = [name, sender] + recipients
         subject = get_data.get('subject')
         message = get_data.get('message')
         body = message + "\n\n" + name
-    msg = Message(subject, headers, body)
-    print(Message)
-    mail.send(msg)
+        msg = Message(subject, headers, body)
+        print(Message)
+        mail.send(msg)
     return jsonify('Message has been sent')
 
 
